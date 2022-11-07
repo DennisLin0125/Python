@@ -8,7 +8,7 @@ radat_time = radar_json['cwbopendata']['dataset']['time']['obsTime']   # 取得�
 print(radar_img)
 
 url = 'https://notify-api.line.me/api/notify'
-token = 'zTwPX9x9iEXIDbymJDhLkCyVk9DMkV3MtDkU6XgPGrG'
+token = ''
 headers = {
     'Authorization': 'Bearer ' + token
 }
