@@ -21,5 +21,5 @@ if __name__ == "__main__":
         for UbikeTitle in UbikeTitles:
             arr += [Ubike['retVal'][UbikeNum][UbikeTitle]]
         ws.append(arr)
-        arr=[]
+        arr = []
 wb.save('台北市Ubike即時資料.xlsx')

@@ -23,7 +23,7 @@ wsArr = []
 for url in urls:
     web = requests.get(url)  # 取得網頁內容
     soup = BeautifulSoup(web.text, "html.parser")  # 轉換內容
-    stock_title = soup.find('h1', class_='C($c-link-text) Fw(b) Fz(24px) Mend(8px)')  # 找到 h1 的內容
+    stock_title = soup.find('h1', class_='C($c-link-text) Fw(b) Fz(24px) Mend(8px)')  # 找到 股票 的內容
 
     source = soup.find('div', class_='D(f) Ai(fe) Mb(4px)')
     price = source.contents[0].text  # 股價
