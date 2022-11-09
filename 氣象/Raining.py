@@ -13,7 +13,7 @@ headers = {
     'Authorization': 'Bearer ' + token
 }
 data = {
-    'message':'從雷達回波看看會不會下雨～',
+    'message':'從雷達回波看看會不會下雨！！',
     'imageThumbnail':radar_img + '?' + radat_time,    # 加上時間參數
     'imageFullsize':radar_img + '?' + radat_time      # 加上時間參數
 }
