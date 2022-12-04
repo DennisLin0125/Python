@@ -15,7 +15,7 @@ if __name__ == "__main__":
         while 'paging' in jd:       #當還有下一頁的時候
             for post in jd['data']:
                 if 'message' in post:  #如果有發文資料
-                    corpus += jieba.cut(post['message'])  #將發文資料切割
+                    corpus += jieba.cut(post['message'])  #將發文資料切割並加到corpus的list裡面
             res = requests.get(jd['paging']['next'])   #繼續下一頁
             jd = res.json() #將資料轉成json
 
