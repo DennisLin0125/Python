@@ -11,7 +11,7 @@ jd = res.json()   #將資料轉成json
 corpus=[]
 dic={}
 if __name__ == "__main__":
-    if res.status_code == requests.codes.ok:  #
+    if res.status_code == requests.codes.ok:  #如果成功的話
         while 'paging' in jd:       #當還有下一頁的時候
             for post in jd['data']:
                 if 'message' in post:  #如果有發文資料
