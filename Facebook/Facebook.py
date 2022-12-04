@@ -7,7 +7,7 @@ wb=Workbook()
 ws=wb.create_sheet('臉書關鍵字',0)
 
 url = "https://graph.facebook.com/v15.0/me/posts?access_token="
-token = "EAAP1quLZAFo4BACbXeQKAeyOjSKrS9dIj7AreH3m6iwx9ZAPZB4d9d4pVnAq6AmjG2mwT7nYYzF9BSTciQb4YomiPtHgxVnIYO6VTzLm2duaNzjoQpmjoNjsDtvoFsn4Lp1q1MGrx4FmMURKG6zZB6TZB5yFnfzTwJZCcarcPYWHB0If0HZADJh3viWAxx8CTz1JeH0g0b5PhtBVj5p9K7wsuSzZBpHbyqLZCLZC1tHhnNtO31VgFXkZC5X"
+token = "EAAP1quLZAFo4BABx3ZBCfckGZBVtAwbGqt1sF6DM5QdoZA7YjAtghmUL9gjakoVZBecDZBQjKHZA4F0ZAXZCi6JzOLkRzoKS9vUqSReKJXCDaL2ZBY9sZCfwszB6Lcj0JmtZBb42t6hHyvwJYX7b3gNbvD536oRrJ9SO1h3csM0n9OAV7ZAeqpWOE9auJfCGZA5E9GcZB0aHCmsesKSP74AuKcBuieeNXCnTJ8I51ckndPtQrgAyMBgiDcSlIjL"
 
 res = requests.get(url=url+token) #得到Facebook資料
 jd = res.json()   #將資料轉成json
@@ -34,8 +34,7 @@ if __name__ == "__main__":
 
         for ele in sorted_word:
             if len(ele[0]) >= 2:   #只印出Key長度>2的資料
-                arr += [ele[0]]
-                arr += [ele[1]]
+                arr += [ele[0],ele[1]]
                 print(ele[0], ele[1])
                 ws.append(arr)
                 arr=[]
