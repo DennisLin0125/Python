@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
         for ele in sorted_word:
             if len(ele[0]) >= 2:   #只印出Key長度>2的資料
-                arr += [ele[0],ele[1]]
+                arr += [ele[0], ele[1]]
                 print(ele[0], ele[1])
                 ws.append(arr)
                 arr=[]
