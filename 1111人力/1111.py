@@ -10,14 +10,14 @@ ws = wb.create_sheet("1111人力銀行", 0)
 
 ws.append(wbTitle)
 
-URL='https://www.1111.com.tw/search/job?ks=%E5%A4%A7%E6%95%B8%E6%93%9A&page='
+URL='https://www.1111.com.tw/search/job?ks=%E9%9F%8C%E9%AB%94&page='
 
 page = 1
 
 res=get(url=URL+str(page))
 
 soup=BeautifulSoup(res.text,"html.parser")
-#soup.find_all('div',class_="job_item_info")!=[]
+
 while soup.find_all('div',class_="job_item_info")!=[]:
     print('正在爬取第',page,'頁')
     for job in soup.find_all('div',class_="job_item_info"):
