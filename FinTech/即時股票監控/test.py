@@ -11,7 +11,7 @@ ws.append(wbTitle)
 print(wbTitle)
 
 stock_num = ['0050', '0056', '2317', '2330', '2302', '2454', '2303', '1303', '2301', '2324', '2367', '3008',
-            '2409', '3481', '3049', '2002', '3105', '2603', '2609', '2615', '2618', '2610','2344']
+             '2409', '3481', '3049', '2002', '3105', '2603', '2609', '2615', '2618', '2610', '2344']
 urlString = 'https://tw.stock.yahoo.com/quote/'
 urls = []
 for x in stock_num:
@@ -39,14 +39,14 @@ for url in urls:
     for mynum in mynumbers:
         if mynum == 7 or mynum == 8 or mynum == 9:  # 跳過漲跌,漲跌幅,百分比
             continue
-        dataArr.append(((data.contents[mynum]).contents[1]).get_text())     # 獲取細節Table資料
-    
-    disk=soup.find('div', class_='D(f) Jc(sb) Ai(c) Mb(4px) Fz(16px)--mobile Fz(14px)')
-    indisk_price=disk.contents[0].next.next_sibling.contents[0]     #內盤
-    #indisk_price_percent = (disk.contents[0].next.next_sibling.contents[1]).get_text()
+        dataArr.append(((data.contents[mynum]).contents[1]).get_text())  # 獲取細節Table資料
 
-    outdisk_price=disk.contents[1].next.contents[0]  #外盤
-    #outdisk_price_percent = (disk.contents[1].next.contents[1]).get_text()
+    disk = soup.find('div', class_='D(f) Jc(sb) Ai(c) Mb(4px) Fz(16px)--mobile Fz(14px)')
+    indisk_price = disk.contents[0].next.next_sibling.contents[0]  # 內盤
+    # indisk_price_percent = (disk.contents[0].next.next_sibling.contents[1]).get_text()
+
+    outdisk_price = disk.contents[1].next.contents[0]  # 外盤
+    # outdisk_price_percent = (disk.contents[1].next.contents[1]).get_text()
 
     tem_class = ''
     class_Len = len(source.next.attrs['class'])
@@ -73,12 +73,12 @@ for url in urls:
     wsArr.append(symbol + price_percent)
     wsArr.append(amount.get_text())
 
-    wsArr.extend(dataArr) # 將細節資料加入wsArr
+    wsArr.extend(dataArr)  # 將細節資料加入wsArr
 
     wsArr.append(indisk_price)
-    #wsArr.append(indisk_price_percent)
+    # wsArr.append(indisk_price_percent)
     wsArr.append(outdisk_price)
-    #wsArr.append(outdisk_price_percent)
+    # wsArr.append(outdisk_price_percent)
 
     wsArr.append(Ratio.get_text())
     wsArr.append(timeString)
