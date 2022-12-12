@@ -4,13 +4,11 @@ from openpyxl import Workbook
 from time import sleep
 
 wbTitle = ['連結','股票名稱', '代號', '股價', '漲跌', '漲跌幅','開盤','昨收','最高','最低','成交量(張)','時間']
-pages = ['1','2','3','4','6','7','37','38','9','10','11','12','13','40','41','42','43','44','45','46'
-         ,'47','19','20','21','22','24','39','25','26','29','48','49','30','31','32','33','51','52']
+pages = ['1', '2', '3', '4', '6', '7', '37', '38', '9', '10', '11', '12', '13', '40', '41', '42', '43', '44', '45', '46'
+         , '47', '19', '20', '21', '22', '24', '39', '25', '26', '29', '48', '49', '30', '31', '32', '33', '51', '52']
 
 wb = Workbook()
 ws = wb.create_sheet("yahoo即時股價", 0)
-
-temUrl='https://tw.stock.yahoo.com.tw/quote/'
 
 ws.append(wbTitle)
 headers={'user-agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'}
@@ -18,20 +16,20 @@ sum = 0
 for page in pages:
     print('正在爬取第', page, '頁')
     url = f'https://tw.stock.yahoo.com/class-quote?sectorId={page}&exchange=TAI'
-    web = requests.get(url,headers=headers)  # 取得網頁內容
+    web = requests.get(url, headers=headers)  # 取得網頁內容
     soup = BeautifulSoup(web.text, "html.parser")  # 轉換內容
-    all_data = soup.find_all('div',class_='Bgc(#fff) table-row D(f) H(48px) Ai(c) Bgc(#e7f3ff):h Fz(16px) Px(12px) Bxz(bb) Bdbs(s) Bdbw(1px) Bdbc($bd-primary-divider)')
+    all_data = soup.find_all('div', class_='Bgc(#fff) table-row D(f) H(48px) Ai(c) Bgc(#e7f3ff):h Fz(16px) Px(12px) Bxz(bb) Bdbs(s) Bdbw(1px) Bdbc($bd-primary-divider)')
     a = 0
     for stock in all_data:
-        if len(stock.find_all('div',class_='Lh(20px) Fw(600) Fz(16px) Ell'))>=1:
-            股票名稱=stock.find_all('div',class_='Lh(20px) Fw(600) Fz(16px) Ell')[0].text
-        elif len(stock.find_all('div',class_='Lh(20px) Fw(600) Fz(14px) Ell'))>=1:
+        if len(stock.find_all('div', class_='Lh(20px) Fw(600) Fz(16px) Ell'))>=1:
+            股票名稱 = stock.find_all('div', class_='Lh(20px) Fw(600) Fz(16px) Ell')[0].text
+        elif len(stock.find_all('div', class_='Lh(20px) Fw(600) Fz(14px) Ell'))>=1:
             股票名稱 = stock.find_all('div', class_='Lh(20px) Fw(600) Fz(14px) Ell')[0].text
 
         股票代號=stock.find_all('span', class_='Fz(14px) C(#979ba7) Ell')[0].text
-        連結 = temUrl + 股票代號
+        連結 = 'https://tw.stock.yahoo.com.tw/quote/' + 股票代號
     #===================================股價============================================================
-        股價=stock.find_all('span', class_='Jc(fe)')[0].text
+        股價 = stock.find_all('span', class_='Jc(fe)')[0].text
     #=====================================漲跌==============================================================
         if len(stock.find_all('span', class_='Fw(600) Jc(fe) D(f) Ai(c)'))>=1:
             # stock_up_down = stock.find_all('span', class_='Fw(600) Jc(fe) D(f) Ai(c)')[0].text
