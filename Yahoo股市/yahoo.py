@@ -11,9 +11,9 @@ wb = Workbook()
 ws = wb.create_sheet("yahoo即時股價", 0)
 
 ws.append(wbTitle)
+
 headers = {
-            'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) '
-                          'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
           }
 sumL = 0
 for page in pages:
