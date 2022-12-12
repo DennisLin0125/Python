@@ -11,7 +11,7 @@ wb = Workbook()
 ws = wb.create_sheet("yahoo即時股價", 0)
 
 ws.append(wbTitle)
-headers={'user-agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'}
+headers = {'user-agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'}
 sum = 0
 for page in pages:
     print('正在爬取第', page, '頁')
@@ -27,10 +27,11 @@ for page in pages:
             股票名稱 = stock.find_all('div', class_='Lh(20px) Fw(600) Fz(14px) Ell')[0].text
 
         股票代號=stock.find_all('span', class_='Fz(14px) C(#979ba7) Ell')[0].text
+
         連結 = 'https://tw.stock.yahoo.com.tw/quote/' + 股票代號
-    #===================================股價============================================================
+
         股價 = stock.find_all('span', class_='Jc(fe)')[0].text
-    #=====================================漲跌==============================================================
+
         if len(stock.find_all('span', class_='Fw(600) Jc(fe) D(f) Ai(c)'))>=1:
             # stock_up_down = stock.find_all('span', class_='Fw(600) Jc(fe) D(f) Ai(c)')[0].text
             # stock_up_down_pricent = stock.find_all('span', class_='Fw(600) Jc(fe) D(f) Ai(c)')[1].text
