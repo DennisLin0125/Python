@@ -31,7 +31,7 @@ for page in pages:
 
         股票代號 = stock.find_all('span', class_='Fz(14px) C(#979ba7) Ell')[0].text
 
-        連結 = 'https://tw.stock.yahoo.com.tw/quote/' + 股票代號
+        連結 = 'https://tw.stock.yahoo.com/quote/' + 股票代號
 
         股價 = stock.find_all('span', class_='Jc(fe)')[0].text
 
