@@ -3,9 +3,15 @@ from bs4 import BeautifulSoup
 from openpyxl import Workbook
 from time import sleep
 
-wbTitle = ['連結', '股票名稱', '代號', '股價', '漲跌', '漲跌幅', '開盤', '昨收', '最高', '最低', '成交量(張)', '時間']
-pages = ['1', '2', '3', '4', '6', '7', '37', '38', '9', '10', '11', '12', '13', '40', '41', '42', '43', '44', '45', '46'
-            , '47', '19', '20', '21', '22', '24', '39', '25', '26', '29', '48', '49', '30', '31', '32', '33', '51', '52']
+wbTitle = ['類別', '股票名稱', '代號', '股價', '漲跌', '漲跌幅', '開盤', '昨收', '最高', '最低', '成交量(張)', '時間', '連結']
+
+category = {
+            '水泥': 1, '食品': 2, '塑膠': 3, '紡織': 4, '電機': 6, '電器電纜': 7, '化學': 37, '生技': 38,
+            '玻璃': 9, '造紙': 10, '鋼鐵': 11, '橡膠': 12, '汽車': 13, '半導體': 40, '電腦週邊': 41, '光電': 42,
+            '通訊網路': 43, '電子零組件': 44, '電子通路': 45, '資訊服務': 46, '其他電子': 47, '營建': 19, '航運': 20, '觀光': 21,
+            '金融業': 22, '貿易百貨': 24, '油電燃氣': 39, '存託憑證': 25, 'ETF': 26, '受益證券': 29, 'ETN': 48, '創新板': 49,
+            '其他': 30, '市認購': 31, '市認售': 32, '指數類': 33, '市牛證': 51, '市熊證': 52
+}
 
 wb = Workbook()
 ws = wb.create_sheet("yahoo即時股價", 0)
@@ -16,9 +22,10 @@ headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
           }
 sumL = 0
-for page in pages:
-    print('正在爬取第', page, '頁')
-    url = f'https://tw.stock.yahoo.com/class-quote?sectorId={page}&exchange=TAI'
+for page in category:
+    類別 = page
+    print(f'正在爬取 {類別} 頁')
+    url = f'https://tw.stock.yahoo.com/class-quote?sectorId={category[類別]}&exchange=TAI'
     web = requests.get(url, headers=headers)  # 取得網頁內容
     soup = BeautifulSoup(web.text, "html.parser")  # 轉換內容
     all_data = soup.find_all('div', class_='Bgc(#fff) table-row D(f) H(48px) Ai(c) Bgc(#e7f3ff):h Fz(16px) Px(12px) Bxz(bb) Bdbs(s) Bdbw(1px) Bdbc($bd-primary-divider)')
@@ -51,11 +58,11 @@ for page in pages:
 
         時間 = stock.find_all('div', class_='Fxg(1) Fxs(1) Fxb(0%) Ta(end) Mend($m-table-cell-space) Mend(0):lc Miw(48px)')[0].text
 
-        ws.append([連結, 股票名稱, 股票代號, 股價, 漲跌, 漲跌幅, 開盤, 昨收, 最高, 最低, 成交量, 時間])
+        ws.append([類別, 股票名稱, 股票代號, 股價, 漲跌, 漲跌幅, 開盤, 昨收, 最高, 最低, 成交量, 時間, 連結])
         a += 1
     sumL += a
-    print('共', a, '筆完成')
+    print(f'共 {a} 筆完成')
     print('＝＝＝＝＝＝＝＝＝＝＝＝＝')
     sleep(1)
-print('全部', sumL, '筆完成')
+print(f'全部 {sumL} 筆完成')
 wb.save('yahoo股價.xlsx')
