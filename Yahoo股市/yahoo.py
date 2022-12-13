@@ -33,17 +33,18 @@ for page in pages:
 
         連結 = f'https://tw.stock.yahoo.com/quote/{股票代號}'
 
-        股價 = stock.find_all('span', class_='Jc(fe)')[0].text.replace(',', '')
-
-        開盤 = stock.find_all('span', class_='Jc(fe)')[3].text.replace(',', '')
-        昨收 = stock.find_all('span', class_='Jc(fe)')[4].text.replace(',', '')
+        股價 = stock.find_all('span', class_='Jc(fe)')[0].text
+        股價Temp = 股價.replace(',', '')
+        開盤 = stock.find_all('span', class_='Jc(fe)')[3].text
+        昨收 = stock.find_all('span', class_='Jc(fe)')[4].text
+        昨收Temp = 昨收.replace(',', '')
         最高 = stock.find_all('span', class_='Jc(fe)')[5].text
         最低 = stock.find_all('span', class_='Jc(fe)')[6].text
         成交量 = stock.find_all('span', class_='Jc(fe)')[7].text
 
         if 股價 != '-':
-            漲跌 = f'{float(股價)-float(昨收):.2f}'
-            漲跌幅 = f'{float(漲跌)/float(昨收)*100:.2f}%'
+            漲跌 = f'{float(股價Temp)-float(昨收Temp):.2f}'
+            漲跌幅 = f'{float(漲跌)/float(昨收Temp)*100:.2f}%'
         else:
             漲跌 = 最高
             漲跌幅 = 最高
