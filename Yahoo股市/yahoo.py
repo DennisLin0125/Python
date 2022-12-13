@@ -31,25 +31,22 @@ for page in pages:
 
         股票代號 = stock.find_all('span', class_='Fz(14px) C(#979ba7) Ell')[0].text
 
-        連結 = 'https://tw.stock.yahoo.com/quote/' + 股票代號
+        連結 = f'https://tw.stock.yahoo.com/quote/{股票代號}'
 
-        股價 = stock.find_all('span', class_='Jc(fe)')[0].text
+        股價 = stock.find_all('span', class_='Jc(fe)')[0].text.replace(',', '')
 
-        if len(stock.find_all('span', class_='Fw(600) Jc(fe) D(f) Ai(c)')) >= 1:
-            漲跌 = stock.find_all('span', class_='Jc(fe)')[1].text
-            漲跌幅 = stock.find_all('span', class_='Jc(fe)')[2].text
-        elif len(stock.find_all('span', class_='Fw(600) Jc(fe) D(f) Ai(c) C($c-trend-up)')) >= 1:
-            漲跌 = '+' + stock.find_all('span', class_='Jc(fe)')[1].text
-            漲跌幅 = '+' + stock.find_all('span', class_='Jc(fe)')[2].text
-        elif len(stock.find_all('span', class_='Fw(600) Jc(fe) D(f) Ai(c) C($c-trend-down)')) >= 1:
-            漲跌 = '-' + stock.find_all('span', class_='Jc(fe)')[1].text
-            漲跌幅 = '-' + stock.find_all('span', class_='Jc(fe)')[2].text
-
-        開盤 = stock.find_all('span', class_='Jc(fe)')[3].text
-        昨收 = stock.find_all('span', class_='Jc(fe)')[4].text
+        開盤 = stock.find_all('span', class_='Jc(fe)')[3].text.replace(',', '')
+        昨收 = stock.find_all('span', class_='Jc(fe)')[4].text.replace(',', '')
         最高 = stock.find_all('span', class_='Jc(fe)')[5].text
         最低 = stock.find_all('span', class_='Jc(fe)')[6].text
         成交量 = stock.find_all('span', class_='Jc(fe)')[7].text
+
+        if 股價 != '-':
+            漲跌 = f'{float(股價)-float(昨收):.2f}'
+            漲跌幅 = f'{float(漲跌)/float(昨收)*100:.2f}%'
+        else:
+            漲跌 = 最高
+            漲跌幅 = 最高
 
         時間 = stock.find_all('div', class_='Fxg(1) Fxs(1) Fxb(0%) Ta(end) Mend($m-table-cell-space) Mend(0):lc Miw(48px)')[0].text
 
