@@ -7,10 +7,10 @@ from selenium.webdriver.support.ui import Select
 import time
 from openpyxl import Workbook
 
-titles=['訓練班別 (訓練單位)','課程代碼','訓練人數','訓練時數','學員負擔','政府負擔','學科/術科 訓練地點','報名日期','招生狀態','預訂訓練 起迄日期','繳費方式','網址']
+titles = ['訓練班別 (訓練單位)', '課程代碼', '訓練人數', '訓練時數', '學員負擔', '政府負擔', '學科/術科 訓練地點','報名日期','招生狀態','預訂訓練 起迄日期','繳費方式','網址']
 
-wb= Workbook()
-ws=wb.create_sheet('課程',0)
+wb = Workbook()
+ws = wb.create_sheet('課程', 0)
 
 ws.append(titles)
 
@@ -58,8 +58,8 @@ for td in tds:
     if i>10:
         arr.append("https://ojt.wda.gov.tw/ClassSearch/Detail?PlanType=1&OCID="+arr[1])
         ws.append(arr)
-        num+=1
-        arr=[]
+        num += 1
+        arr = []
         i=0
         print('第 '+str(num)+' 筆完成')
 wb.save('訓練課程.xlsx')
