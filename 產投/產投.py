@@ -44,16 +44,16 @@ for i in range(10):
     課程名稱 = all_data.find('td', headers="tb1-b").a.text
     連結 = all_data.find('td', headers="tb1-b").select('a')[1]['href']
     課程連結 = f'https://ojt.wda.gov.tw/{連結}'
-    課程代碼=all_data.find('td', headers="tb1-c").text
+    課程代碼 = all_data.find('td', headers="tb1-c").text
     訓練人數 = all_data.find('td', headers="tb1-d").text
     時數 = all_data.find('td', headers="tb1-e").text
     學員負擔 = all_data.find('td', headers="tb1-f tb1-f1").text
     政府負擔 = all_data.find('td', headers="tb1-f tb1-f2").text
     地點 = all_data.find('td', headers="tb1-g").text
-    報名日期=all_data.find('td', headers="tb1-i").text
-    招生狀態=all_data.find('td', headers="tb1-j").text
-    訓練日期=all_data.find('td', headers="tb1-k").text
-    繳費方式=all_data.find('td', headers="tb1-l").text
+    報名日期 = all_data.find('td', headers="tb1-i").text
+    招生狀態 = all_data.find('td', headers="tb1-j").text
+    訓練日期 = all_data.find('td', headers="tb1-k").text
+    繳費方式 = all_data.find('td', headers="tb1-l").text
     ws.append([課程名稱, 課程代碼, 訓練人數, 時數, 學員負擔, 政府負擔, 地點,
                報名日期, 招生狀態, 訓練日期, 繳費方式, 課程連結])
 wb.save('產投課程表.xlsx')
