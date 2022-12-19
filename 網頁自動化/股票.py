@@ -7,7 +7,74 @@ import time
 from openpyxl import Workbook
 
 wb = Workbook()
-ws = wb.create_sheet("yahoo即時股價", 0)
+ws = wb.create_sheet("大盤即時股價", 0)
+
+wbTitle = ['類別', '股價', '漲跌', '漲跌幅', '開盤', '最高', '最低', '昨收']
+
+ws.append(wbTitle)
+
+category = {'台股': 2, '亞股': 3, '歐股': 4, '美股': 5}
+
+Option = webdriver.ChromeOptions()
+prefs = {
+            "profile.default_content_setting_values":
+            {
+                "notifications": 2
+            }
+}
+Option.add_experimental_option('prefs', prefs)
+
+PATH = "./chromedriver"
+
+url = f'https://tw.stock.yahoo.com/'
+
+arr = []
+
+driver = webdriver.Chrome(PATH, options=Option)
+driver.get(url)
+
+for data in category:
+    arr.append(data)
+    print(f'正在爬取 {data} 頁')
+
+    get_ok = driver.find_elements(By.TAG_NAME, value="button")[category[data]]
+    get_ok.click()
+
+    pageSource = driver.page_source  # 取得網頁原始碼
+    soup = BeautifulSoup(pageSource, "html.parser")  # 解析器接手
+
+    全部資料 = soup.find_all('div', class_='Fx(a) Pt(22px) Pb(10px) Px(20px) Miw(200px)')[0]
+    大盤 = 全部資料.contents[0].contents[0].text
+    arr.append(大盤)
+
+    if data == '台股':
+        for i in 全部資料.next.contents[1].contents[1].contents:
+            arr.append(i.text)
+    else:
+        for i in 全部資料.next.contents[1].contents[0].contents:
+            arr.append(i.text)
+
+    for all_data in 全部資料.contents[1].contents:
+        arr.append(all_data.contents[1].text)
+
+    股價 = arr[1]
+    昨收 = arr[7]
+    漲跌 = arr[2]
+    漲跌幅 = arr[3]
+
+    if float(股價) - float(昨收) > 0:
+        arr[2] = f'△{漲跌}'
+        arr[3] = f'△{漲跌幅.replace("(","").replace(")","")}'
+    elif float(股價) - float(昨收) < 0:
+        arr[2] = f'▽{漲跌}'
+        arr[3] = f'▽{漲跌幅.replace("(","").replace(")","")}'
+
+    ws.append(arr)
+    arr = []
+
+driver.quit()
+#==========================================================================================
+ws = wb.create_sheet("yahoo股價", 1)
 
 wbTitle = ['類別', '代號', '股票名稱', '股價', '漲跌', '漲跌幅', '開盤', '昨收', '最高', '最低', '成交量(張)', '時間', '連結']
 
@@ -23,16 +90,6 @@ category = {
             '其他': 30, '市認購': 31, '市認售': 32, '指數類': 33, '市牛證': 51, '市熊證': 52
 }
 
-Option = webdriver.ChromeOptions()
-prefs = {
-            "profile.default_content_setting_values":
-            {
-                "notifications": 2
-            }
-}
-Option.add_experimental_option('prefs', prefs)
-
-PATH = "./chromedriver"
 arr = []
 sumL = 0
 for data in category:
