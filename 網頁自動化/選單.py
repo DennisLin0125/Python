@@ -90,15 +90,14 @@ driver.get(url)
 arr = []
 sumL = 0
 
-for i in range(38):
+for num in range(38):
     get_ok = driver.find_elements(By.TAG_NAME, value="span")[12]
     time.sleep(1)
     get_ok.click()
 
-    ok = driver.find_elements(By.TAG_NAME, value='a')[180+i]
+    ok = driver.find_elements(By.TAG_NAME, value='a')[180+num]
     time.sleep(1)
     data = ok.text
-    print(f'正在爬取 {data} 頁')
     ok.click()
 
     time.sleep(2)
@@ -118,6 +117,8 @@ for i in range(38):
 
     pageSource = driver.page_source  # 取得網頁原始碼
     soup = BeautifulSoup(pageSource, "html.parser")  # 解析器接手
+
+    print(f'正在爬取 {data} 頁')
 
     for all_data in soup.find_all('li', class_='List(n)'):
         arr.append(data)
