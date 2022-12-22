@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 from bs4 import BeautifulSoup
 import time
 from openpyxl import Workbook
@@ -80,6 +82,43 @@ arrTable = [3, 6, 7, 8, 9, 10]
 
 ws.append(wbTitle)
 
+category = {
+            '水泥': '食品',
+            '食品': '塑膠',
+            '塑膠': '紡織',
+            '紡織': '電機',
+            '電機': '電器電纜',
+            '電器電纜': '化學',
+            '化學': '生技',
+            '生技': '玻璃',
+            '玻璃': '造紙',
+            '造紙': '鋼鐵',
+            '鋼鐵': '橡膠',
+            '橡膠': '汽車',
+            '汽車': '半導體',
+            '半導體': '電腦週邊',
+            '電腦週邊': '光電',
+            '光電': '通訊網路',
+            '通訊網路': '電子零組件',
+            '電子零組件': '電子通路',
+            '電子通路': '資訊服務',
+            '資訊服務': '其他電子',
+            '其他電子': '營建',
+            '營建': '航運',
+            '航運': '觀光',
+            '觀光': '金融業',
+            '金融業': '貿易百貨',
+            '貿易百貨': '油電燃氣',
+            '油電燃氣': '存託憑證',
+            '存託憑證': 'ETF',
+            'ETF': '受益證券',
+            '受益證券': 'ETN',
+            'ETN': '創新板',
+            '創新板': '其他',
+            '其他': '指數類',
+            '指數類': '指數類'
+}
+
 url = f'https://tw.stock.yahoo.com/class-quote?sectorId=1&exchange=TAI'
 driver = webdriver.Chrome(PATH, options=Option)
 driver.get(url)
@@ -87,19 +126,9 @@ driver.get(url)
 arr = []
 sumL = 0
 
-for num in range(36):
-    if num == 33 or num == 34:
-        continue
-    get_ok = driver.find_elements(By.TAG_NAME, value="span")[12]
-    time.sleep(3)
-    get_ok.click()
+for data in category:
 
-    ok = driver.find_elements(By.TAG_NAME, value='a')[180+num]
-    time.sleep(3)
-    data = ok.text
-    ok.click()
-
-    time.sleep(3)
+    time.sleep(1)
 
     temp = driver.find_element(By.TAG_NAME, value="p").text.replace('共 ', '').replace(' 筆結果', '')
 
@@ -152,9 +181,27 @@ for num in range(36):
 
         ws.append(arr)
         arr = []
+
     sumL += k
     print(f'共 {k} 筆')
     print('===============================')
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.LINK_TEXT, f"上市類股 / {data}"))
+    )
+    get_ok = driver.find_element(By.LINK_TEXT, f"上市類股 / {data}")
+    time.sleep(1)
+    get_ok.click()
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.LINK_TEXT, category[data]))
+    )
+
+    ok = driver.find_element(By.LINK_TEXT, category[data])
+    time.sleep(1)
+    ok.click()
+
+    time.sleep(1)
 
 wb.save('yahoo股價.xlsx')
 driver.quit()
