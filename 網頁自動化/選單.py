@@ -40,8 +40,8 @@ for data in category:
     get_ok = driver.find_elements(By.TAG_NAME, value="button")[category[data]]
     get_ok.click()
 
-    pageSource = driver.page_source  # 取得網頁原始碼
-    soup = BeautifulSoup(pageSource, "html.parser")  # 解析器接手
+    pageSource = driver.page_source
+    soup = BeautifulSoup(pageSource, "html.parser")
 
     全部資料 = soup.find_all('div', class_='Fx(a) Pt(22px) Pb(10px) Px(20px) Miw(200px)')[0]
     大盤 = 全部資料.contents[0].contents[0].text
@@ -148,7 +148,7 @@ for data in category:
     temp = driver.find_element(By.TAG_NAME, value="p").text.replace('共 ', '').replace(' 筆結果', '')
 
     if int(temp) > 30:
-        for j in range(10):  # 進行十次
+        for j in range(10):
             flag = 1
             driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')  # 重複往下捲動
             time.sleep(1)
@@ -157,8 +157,8 @@ for data in category:
         time.sleep(1)
         flag = 0
 
-    pageSource = driver.page_source  # 取得網頁原始碼
-    soup = BeautifulSoup(pageSource, "html.parser")  # 解析器接手
+    pageSource = driver.page_source
+    soup = BeautifulSoup(pageSource, "html.parser")
 
     print(f'正在爬取 {category[data]} 頁')
 
