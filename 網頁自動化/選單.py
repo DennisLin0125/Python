@@ -116,7 +116,7 @@ category = {
             'ETN': '創新板',
             '創新板': '其他',
             '其他': '指數類',
-            '指數類': '指數類'
+            '指數類': '水泥',
 }
 
 url = f'https://tw.stock.yahoo.com/class-quote?sectorId=1&exchange=TAI'
@@ -124,16 +124,29 @@ driver = webdriver.Chrome(PATH, options=Option)
 driver.get(url)
 
 arr = []
-sumL = 0
+sumL = flag = k = 0
 
 for data in category:
 
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.LINK_TEXT, f"上市類股 / {data}"))
+    )
+    get_ok = driver.find_element(By.LINK_TEXT, f"上市類股 / {data}")
     time.sleep(1)
+    get_ok.click()
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.LINK_TEXT, category[data]))
+    )
+
+    ok = driver.find_element(By.LINK_TEXT, category[data])
+    time.sleep(1)
+    ok.click()
+
+    time.sleep(3)
 
     temp = driver.find_element(By.TAG_NAME, value="p").text.replace('共 ', '').replace(' 筆結果', '')
 
-    k = 0
-    flag = 0
     if int(temp) > 30:
         for j in range(10):  # 進行十次
             flag = 1
@@ -142,14 +155,15 @@ for data in category:
     if flag == 1:
         driver.execute_script("window.scrollTo(0,0)")
         time.sleep(1)
+        flag = 0
 
     pageSource = driver.page_source  # 取得網頁原始碼
     soup = BeautifulSoup(pageSource, "html.parser")  # 解析器接手
 
-    print(f'正在爬取 {data} 頁')
+    print(f'正在爬取 {category[data]} 頁')
 
     for all_data in soup.find_all('li', class_='List(n)'):
-        arr.append(data)
+        arr.append(category[data])
         連結 = all_data.find('a')['href']
         代號 = 連結.replace('https://tw.stock.yahoo.com/quote/', '')
         arr.append(代號)
@@ -185,23 +199,7 @@ for data in category:
     sumL += k
     print(f'共 {k} 筆')
     print('===============================')
-
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.LINK_TEXT, f"上市類股 / {data}"))
-    )
-    get_ok = driver.find_element(By.LINK_TEXT, f"上市類股 / {data}")
-    time.sleep(1)
-    get_ok.click()
-
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.LINK_TEXT, category[data]))
-    )
-
-    ok = driver.find_element(By.LINK_TEXT, category[data])
-    time.sleep(1)
-    ok.click()
-
-    time.sleep(1)
+    k = 0
 
 wb.save('yahoo股價.xlsx')
 driver.quit()
