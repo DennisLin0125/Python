@@ -31,6 +31,8 @@ url = f'https://tw.stock.yahoo.com/'
 arr = []
 
 driver = webdriver.Chrome(PATH, options=Option)
+#driver = webdriver.Chrome(options=Option)
+
 driver.get(url)
 
 for data in category:
@@ -120,7 +122,10 @@ category = {
 }
 
 url = f'https://tw.stock.yahoo.com/class-quote?sectorId=1&exchange=TAI'
-driver = webdriver.Chrome(PATH, options=Option)
+
+#driver = webdriver.Chrome(PATH, options=Option)
+driver = webdriver.Chrome(options=Option)
+
 driver.get(url)
 
 arr = []
