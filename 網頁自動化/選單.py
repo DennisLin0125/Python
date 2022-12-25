@@ -143,7 +143,7 @@ for data in category:
     time.sleep(1)
     ok.click()
 
-    time.sleep(3)
+    time.sleep(2)
 
     temp = driver.find_element(By.TAG_NAME, value="p").text.replace('共 ', '').replace(' 筆結果', '')
 
@@ -151,7 +151,7 @@ for data in category:
         for j in range(10):
             flag = 1
             driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')  # 重複往下捲動
-            time.sleep(1)
+            time.sleep(2)
     if flag == 1:
         driver.execute_script("window.scrollTo(0,0)")
         time.sleep(1)
