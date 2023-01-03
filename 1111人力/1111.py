@@ -108,16 +108,22 @@ df = pd.read_excel('1111人力銀行.xlsx', '1111人力銀行', engine='openpyxl
 df.insert(7, "中心點經度", "")
 df.insert(8, "中心點緯度", "")
 
-i = 0
-for 工作地點 in df['工作地點']:
-    filtData = data[data['行政區名'] == 工作地點]
-    if not filtData.empty:
-        df.iloc[i, 7] = filtData.iloc[0, 1]  # 經度
-        df.iloc[i, 8] = filtData.iloc[0, 2]  # 緯度
-    else:
-        df.iloc[i, 7] = np.nan
-        df.iloc[i, 8] = np.nan
-    i += 1
+def 找尋經緯度(df,data):
+    中心點經度 = []
+    中心點緯度 = []
+
+    for 工作地點 in df['工作地點']:
+        filtData = data[data['行政區名'] == 工作地點]
+        if not filtData.empty:
+            中心點經度.append(filtData.iloc[0, 1])
+            中心點緯度.append(filtData.iloc[0, 2])
+        else:
+            中心點經度.append(np.nan)
+            中心點緯度.append(np.nan)
+
+    return 中心點經度, 中心點緯度
+
+df['中心點經度'], df['中心點緯度'] = 找尋經緯度(df, data)
 
 temp = pd.notnull(df['中心點經度'])  # 如果不是nan就為True
 df_new = df[temp]  # 移除nan
