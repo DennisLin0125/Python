@@ -62,7 +62,7 @@ for data in soup.find_all('tr'):
         報名開始 = data.select('td')[8].text[:19].replace('\n', '')
         報名結束 = data.select('td')[8].text[37:55]
         招生狀態 = data.select('td')[9].text
-        訓練開始 = data.select('td')[10].text[:10].replace(' ', '')
+        訓練開始 = data.select('td')[10].text[:10].replace(' ', '').replace('\n', '')
         訓練結束 = data.select('td')[10].text[28:].replace(' ', '')
         繳費方式 = data.select('td')[11].text
         ws.append([訓練班別, 課程代碼, 訓練人數, 訓練時數, 學員負擔, 政府負擔,
