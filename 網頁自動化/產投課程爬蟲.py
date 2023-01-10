@@ -58,9 +58,9 @@ for data in soup.find_all('tr'):
         訓練時數 = data.select('td')[4].text
         學員負擔 = data.select('td')[5].text
         政府負擔 = data.select('td')[6].text
-        訓練地點 = data.select('td')[7].text
-        報名開始 = data.select('td')[8].text[:19]
-        報名結束 = data.select('td')[8].text[37:]
+        訓練地點 = data.select('td')[7].text.replace('\n', '')
+        報名開始 = data.select('td')[8].text[:19].replace('\n', '')
+        報名結束 = data.select('td')[8].text[37:55]
         招生狀態 = data.select('td')[9].text
         訓練開始 = data.select('td')[10].text[:10].replace(' ', '')
         訓練結束 = data.select('td')[10].text[28:].replace(' ', '')
